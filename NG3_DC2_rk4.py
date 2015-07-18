@@ -10,7 +10,7 @@ from numpy.linalg import norm
 import matplotlib.pyplot as plt
 
 def r_k(func, y_0, tspan, n):
-    """Integrates the ODE system using Runge-Kutta 4
+    r"""Integrates the ODE system using Runge-Kutta 4
     
     Parameters
     ----------
@@ -18,7 +18,7 @@ def r_k(func, y_0, tspan, n):
         Iteration function, written as a first order system.
     y_0 : array_like (n_var)
         Initial conditions for the variables.
-    tspan : tuple
+    tspan : array_like (2)
         Initial and end time.
     n : integer
         Number of steps
@@ -31,10 +31,38 @@ def r_k(func, y_0, tspan, n):
         Solution.
     h : float
         Time step.
-    
+        
+    Integration formula
+    ---------
+
+        Given a set of of ODE's, written as a first-order system:
+        
+        .. math::
+        
+            \frac{d \mathbf{y}}{dt} = f(t,\mathbf{y}),
+        
+        the generalized Runge Kutta integration formula has the form:
+        
+        .. math::
+        
+            \begin{align}
+            y_{n+1} &= y_n + h \sum_{i = 1}^{s} b_i k_i \\
+            k_i &= f \left(t_n + c_i h , y_n + h \sum_{j=1}^{s} a_{i,j} k_j \right).
+            \end{align}
+            
+            \begin{array}{c|cccc}
+            c_1    & a_{11} & a_{12}& \dots & a_{1s}\\
+            c_2    & a_{21} & a_{22}& \dots & a_{2s}\\
+            \vdots & \vdots & \vdots& \ddots& \vdots\\
+            c_s    & a_{s1} & a_{s2}& \dots & a_{ss}\\
+            \hline\\ \\
+            & b_1    & b_2   & \dots & b_s\\
+            \end{array}
+        
+        
     """
     
-    n_var = np.size(y_0)  
+    n_var = np.size(y_0)
     y_n = np.zeros((n_var,n+1))    
     y_n[:,0] = y_0
     h = (tspan[1] - tspan[0])/n
@@ -88,6 +116,8 @@ if __name__ == "__main__":
 
     # Harmonic oscilator
     plt.figure()
+    t_ho, y_ho, h_ho = r_k(harm_osc, [1.,0.], [0., 10.], 100)
+    plt.plot(t_ho, y_ho.T)
     N_vec = np.array([100, 200, 500,1000, 2000, 5000, 10000])
     error_vec = np.zeros((len(N_vec)))
     for cont, N in enumerate(N_vec):
@@ -96,6 +126,7 @@ if __name__ == "__main__":
     
     coef = np.polyfit(np.log(4*np.pi/N_vec), np.log(error_vec), 1)
     print "The approximated order of convergence is: %g" % coef[0]
+    plt.figure()
     plt.loglog(4*np.pi/N_vec, error_vec)
     plt.title('Harmonic oscilator')
     plt.xlabel('Step')
