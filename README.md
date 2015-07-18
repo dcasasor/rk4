@@ -1,5 +1,10 @@
-# rk4
-Runge Kutta Method of 4th order to integrate ODE equations written as a first order system.
-The method was tested on three case studies: i) y' = -2*y, ii) Simple pendulum ODE I, iii) Harmonic Oscilator ODE's system
+# Runge-Kutta 4 in Python
 
-This code is intended to get familiar with Python language, and its accuracy or robustness is not proven sufficiently. Use it under your own risk.
+Runge Kutta Method of 4th order to integrate ODE equations written as a first order system.
+The method has been tested on three cases:
+
+1. y' = -2 y
+2. Simple pendulum ODE,
+3. Harmonic Oscilator ODEs system.
+
+The purpose of this code is to get familiar with programming in Python, and its accuracy or robustness is not proven sufficiently.
