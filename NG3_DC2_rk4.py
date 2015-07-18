@@ -115,9 +115,36 @@ if __name__ == "__main__":
     plt.ylabel('Position')
 
     # Harmonic oscilator
-    plt.figure()
-    t_ho, y_ho, h_ho = r_k(harm_osc, [1.,0.], [0., 10.], 100)
-    plt.plot(t_ho, y_ho.T)
+    plt.figure(figsize=(8,5), dpi=300)
+    t_ho, y_ho, h_ho = r_k(harm_osc, [1.,0.], [0.,4*np.pi], 256)
+    ho_plot = plt.plot(t_ho, y_ho.T)
+    plt.legend(ho_plot, ('Position','Velocity'),loc='upper left')
+    plt.xlabel('Time', position = (1, 1))
+    plt.ylabel('Position/Velocity')
+    plt.xlim(t_ho.min()*.9, t_ho.max()*1.1)
+    
+    plt.xticks(np.arange(0, 5*np.pi, np.pi),
+               [r'$0$', r'$\pi$', r'$2 \pi$', r'$3 \pi$', r'$4 \pi$'])
+
+
+    plt.ylim(np.min(y_ho)*1.1, np.max(y_ho)*1.1)
+    plt.yticks(np.arange(-1, 1, .5),
+               [r'$-1$', r'$-0.5$', r'$0$', r'$0.5$', r'$1$'])
+    
+    
+    ax = plt.gca()
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+    ax.spines['bottom'].set_position(('data', 0))
+    ax.spines['left'].set_position(('data', 0))
+    
+#    plt.scatter([np.pi, ], [0, ], 50, color='green')
+#    plt.annotate('When velocity goes from negative to possitive...', xy=(np.pi, 0),
+#                 xycoords='data', xytext=(+10, +30), textcoords='offset points')
+    
+    
     N_vec = np.array([100, 200, 500,1000, 2000, 5000, 10000])
     error_vec = np.zeros((len(N_vec)))
     for cont, N in enumerate(N_vec):
