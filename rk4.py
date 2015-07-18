@@ -115,7 +115,7 @@ if __name__ == "__main__":
     plt.ylabel('Position')
 
     # Harmonic oscilator
-    plt.figure(figsize=(8,5), dpi=300)
+    plt.figure(dpi=300)
     t_ho, y_ho, h_ho = r_k(harm_osc, [1.,0.], [0.,4*np.pi], 256)
     ho_plot = plt.plot(t_ho, y_ho.T)
     plt.legend(ho_plot, ('Position','Velocity'),loc='upper left')
